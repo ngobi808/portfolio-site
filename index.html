@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelvin Ngobiro Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Concept: a wall of brass-and-umber tiles. Everything flips: the name settles like a split-flap board, work, numbers and skills turn over to show the story behind them. */
+@property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+:root {
+  --ink: #0e0805;        /* blackish brown */
+  --umber: #1c120b;      /* tile face */
+  --umber-2: #2a1b10;    /* tile face, lifted */
+  --copper: #8c5a2b;     /* mid brown-gold */
+  --gold: #d6a24a;       /* main gold */
+  --gold-hi: #f6d58a;    /* highlight gold */
+  --cream: #efe2c8;      /* text */
+  --muted: #b39f7d;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 16px;
+  padding-block: 0 48px;
+  overflow-x: hidden;
+}
+/* trippy ground: slow drifting gold light behind a faint tile lattice */
+body::before {
+  content: ""; position: fixed; inset: -20%; z-index: -2;
+  background:
+    radial-gradient(40% 40% at 20% 25%, rgba(214,162,74,.28), transparent 70%),
+    radial-gradient(35% 35% at 80% 20%, rgba(140,90,43,.35), transparent 70%),
+    radial-gradient(45% 45% at 60% 85%, rgba(246,213,138,.16), transparent 70%);
+  animation: drift 24s ease-in-out infinite alternate;
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(214,162,74,.07) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(90deg, rgba(214,162,74,.07) 0 1px, transparent 1px 56px);
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 80%);
+}
+@keyframes drift { to { transform: translate3d(6%, 4%, 0) rotate(8deg) scale(1.1); } }
+
+.wrap { max-width: 1120px; margin-inline: auto; }
+a { color: var(--gold-hi); }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 40px 28px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; }
+.flap { font-family: var(--f-display); font-weight: 800; font-size: clamp(2.1rem, 9.5vw, 5.4rem); line-height: 1; display: flex; flex-direction: column; gap: .12em; margin: 0; }
+.flap-row { display: flex; gap: .06em; flex-wrap: nowrap; }
+.ch {
+  position: relative; display: inline-grid; place-items: center;
+  width: .8em; height: 1.1em; border-radius: .08em;
+  background: linear-gradient(180deg, var(--umber-2) 0 50%, var(--umber) 50% 100%);
+  color: var(--gold-hi); box-shadow: inset 0 0 0 1px rgba(214,162,74,.25), 0 .08em .25em rgba(0,0,0,.5);
+  perspective: 600px; overflow: hidden;
+}
+.ch::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(0,0,0,.65); }
+.ch b { font-weight: 800; display: block; transform-origin: 50% 50%; }
+.ch.tick b { animation: flip .5s ease-in-out; }
+@keyframes flip { 0% { transform: rotateX(0); } 50% { transform: rotateX(-88deg); opacity: .4; } 100% { transform: rotateX(0); } }
+.sub { max-width: 34ch; font-size: clamp(1.1rem, 2.6vw, 1.5rem); margin: 26px 0 0; color: var(--cream); }
+.sub em { font-style: normal; color: var(--gold-hi); }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+.meta li { font-family: var(--f-mono); font-size: 12px; padding: 6px 12px; border: 1px solid rgba(214,162,74,.4); border-radius: 999px; color: var(--muted); }
+.wave-btn {
+  margin-top: 0; font-family: var(--f-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); background: linear-gradient(110deg, var(--gold) 0%, var(--gold-hi) 50%, var(--gold) 100%);
+  background-size: 200% 100%; border: 0; border-radius: 4px; padding: 14px 20px; cursor: pointer;
+  animation: sheen 4s linear infinite;
+}
+@keyframes sheen { to { background-position: -200% 0; } }
+
+/* ---------- section heads ---------- */
+.sec { padding-top: 56px; }
+.sec h2 { font-family: var(--f-display); font-weight: 600; font-size: clamp(1.15rem, 3vw, 1.6rem); margin: 0 0 6px; text-wrap: balance; }
+.sec .lede { color: var(--muted); margin: 0 0 22px; max-width: 56ch; }
+.hint { font-family: var(--f-mono); font-size: 12px; color: var(--gold); letter-spacing: .06em; }
+
+/* ---------- flip tiles ---------- */
+.grid { display: grid; gap: 12px; perspective: 1400px; }
+.grid.work { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: 188px; }
+.grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 168px; }
+.s3 { grid-column: span 3; } .s2 { grid-column: span 2; } .r2 { grid-row: span 2; }
+
+.tile { position: relative; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; min-width: 0; -webkit-tap-highlight-color: transparent; }
+.in { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .8s cubic-bezier(.3,.7,.2,1); transition-delay: var(--d, 0s); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; overflow: hidden; }
+.front { background: linear-gradient(155deg, var(--umber-2), var(--umber)); box-shadow: inset 0 0 0 1px rgba(214,162,74,.28); }
+.front::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(246,213,138,.16) 50%, transparent 65%); background-size: 250% 100%; animation: glint 6s ease-in-out infinite; animation-delay: var(--g, 0s); }
+@keyframes glint { 0%, 55% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+.back {
+  transform: rotateY(180deg); color: #1a0f07; justify-content: flex-start; gap: 10px;
+  background:
+    conic-gradient(from var(--a), #f6d58a, #d6a24a, #8c5a2b, #d6a24a, #f6d58a);
+  animation: spin 9s linear infinite;
+}
+@keyframes spin { to { --a: 360deg; } }
+.back::after { content: ""; position: absolute; inset: 0; background: repeating-radial-gradient(circle at 30% 120%, rgba(14,8,5,.0) 0 14px, rgba(14,8,5,.07) 14px 16px); pointer-events: none; }
+.tile:focus-visible .in { outline: 2px solid var(--gold-hi); outline-offset: 3px; border-radius: 10px; }
+.tile.flipped .in, .grid.all .tile .in { transform: rotateY(180deg); }
+@media (hover: hover) {
+  .tile:hover .in { transform: rotateY(180deg); }
+  .tile.flipped:not(:hover) .in { transform: none; }
+}
+
+.k { font-family: var(--f-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.back .k { color: #4a2c12; }
+.t { font-family: var(--f-display); font-weight: 600; font-size: clamp(1rem, 2vw, 1.3rem); line-height: 1.2; margin: 0; text-wrap: balance; }
+.work .s3.r2 .t { font-size: clamp(1.3rem, 3vw, 2rem); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font-family: var(--f-mono); font-size: 11px; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(214,162,74,.45); color: var(--cream); }
+.back p { margin: 0; font-size: 14.5px; line-height: 1.45; font-weight: 500; position: relative; z-index: 1; }
+.back .k { position: relative; z-index: 1; }
+.big { font-family: var(--f-display); font-weight: 800; font-size: clamp(1.9rem, 4.4vw, 3rem); line-height: 1; color: var(--gold-hi); margin: 0; }
+.tick-mark { font-family: var(--f-mono); font-size: 11px; color: var(--muted); align-self: flex-end; }
+.back .tick-mark { color: #4a2c12; }
+.tile.small .t { font-size: 1.05rem; }
+
+/* ---------- about + contact ---------- */
+.panels { display: grid; gap: 12px; grid-template-columns: 1.4fr 1fr; }
+.panel { background: linear-gradient(155deg, var(--umber-2), var(--umber)); box-shadow: inset 0 0 0 1px rgba(214,162,74,.28); border-radius: 10px; padding: 24px; min-width: 0; }
+.panel h3 { font-family: var(--f-display); font-size: 1.05rem; font-weight: 600; margin: 0 0 12px; }
+.panel p { margin: 0 0 12px; }
+.panel p:last-child { margin-bottom: 0; }
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.mail code { font-family: var(--f-mono); font-size: 14px; color: var(--gold-hi); overflow-wrap: anywhere; user-select: all; }
+.copy { font-family: var(--f-mono); font-size: 12px; background: transparent; color: var(--gold-hi); border: 1px solid var(--gold); border-radius: 4px; padding: 6px 10px; cursor: pointer; }
+.links { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+footer { margin-top: 56px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+
+
+/* ---------- dynamic pill ---------- */
+.pillbar { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); z-index: 60; display: flex; justify-content: center; padding-top: 14px; pointer-events: none; }
+.pill { pointer-events: auto; width: 228px; max-width: 100%; border-radius: 26px; background: rgba(22,13,8,.82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(214,162,74,.4); box-shadow: 0 10px 30px rgba(0,0,0,.45); transition: width .5s cubic-bezier(.3,.8,.2,1); overflow: hidden; }
+.pill.open { width: min(440px, 100%); }
+.pill-top { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 18px 10px 10px; cursor: pointer; color: var(--cream); }
+.pill-top:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: -3px; border-radius: 26px; }
+.orb { flex: none; width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from var(--a), #f6d58a, #c2571a, #8c5a2b, #f6d58a); animation: spin 6s linear infinite; box-shadow: 0 0 14px rgba(214,162,74,.55); }
+.pill-text { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+.pill-time { white-space: nowrap; font-family: var(--f-mono); font-size: 14px; font-variant-numeric: tabular-nums; }
+.pill-state { font-family: var(--f-mono); font-size: 11px; color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pill-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s ease; }
+.pill.open .pill-panel { grid-template-rows: 1fr; }
+.pill-inner { overflow: hidden; min-height: 0; }
+.pill-inner > div { padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.pill-msg { font-size: 14px; margin: 0; color: var(--cream); }
+.pill-nav { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill-nav a { font-family: var(--f-mono); font-size: 12px; text-decoration: none; color: var(--gold-hi); border: 1px solid rgba(214,162,74,.45); border-radius: 999px; padding: 6px 12px; }
+.pill-nav a:hover, .pill-nav a:focus-visible { background: var(--gold); color: var(--ink); }
+
+/* ---------- name block ---------- */
+.hero { padding-block: 34px 0; }
+.pron { font-family: var(--f-body); font-size: 1.15rem; color: var(--muted); margin: 14px 0 0; }
+.tagline { margin: 6px 0 0; font-size: 1.05rem; letter-spacing: .02em; }
+.where { margin: 22px 0 0; color: var(--muted); font-size: .95rem; }
+.icons { display: flex; gap: 22px; margin: 14px 0 0; }
+.icons a, .icons button { all: unset; box-sizing: border-box; cursor: pointer; color: var(--muted); display: grid; place-items: center; width: 28px; height: 28px; transition: color .2s, transform .2s; }
+.icons a:hover, .icons button:hover, .icons a:focus-visible, .icons button:focus-visible { color: var(--gold-hi); transform: translateY(-2px); }
+.icons svg { width: 22px; height: 22px; }
+.toast { font-family: var(--f-mono); font-size: 12px; color: var(--gold-hi); height: 18px; margin: 6px 0 0; }
+
+/* ---------- card fan ---------- */
+.fan { --cw: clamp(96px, 19vw, 190px); position: relative; height: calc(var(--cw) * 1.78); margin: 18px auto 0; max-width: 900px; perspective: 1200px; }
+.card { position: absolute; left: calc(50% + var(--x) * var(--cw) * .64 - var(--cw) / 2); top: calc(var(--cw) * var(--y)); width: var(--cw); height: calc(var(--cw) * 1.36); border-radius: 14px; background: var(--c); color: var(--fg); transform: rotate(var(--r)); transform-origin: 50% 100%; box-shadow: 0 18px 40px rgba(0,0,0,.45); padding: calc(var(--cw) * .1); display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; overflow: hidden; z-index: var(--z); transition: transform .55s cubic-bezier(.3,.8,.2,1), box-shadow .55s; animation: cardIn .9s cubic-bezier(.3,.8,.2,1) backwards; animation-delay: calc(var(--i) * .12s + .2s); }
+@keyframes cardIn { from { transform: rotateY(-100deg) translateY(40px) rotate(var(--r)); opacity: 0; } }
+.card:hover, .card:focus-visible { transform: translateY(calc(var(--cw) * -.16)) rotate(0deg) scale(1.05); z-index: 20; box-shadow: 0 30px 60px rgba(0,0,0,.6); }
+.card:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
+.card .art { position: absolute; left: 0; right: 0; top: 0; height: 62%; display: flex; align-items: flex-end; justify-content: center; gap: 2px; padding: calc(var(--cw) * .1) calc(var(--cw) * .1) 0; overflow: hidden; }
+.card .lbl { position: relative; font-family: var(--f-display); font-weight: 600; font-size: calc(var(--cw) * .115); line-height: 1.15; }
+.card .lbl small { display: block; font-family: var(--f-mono); font-weight: 400; font-size: calc(var(--cw) * .065); letter-spacing: .08em; text-transform: uppercase; opacity: .7; margin-top: 4px; }
+.bar { flex: 1; background: currentColor; opacity: .85; transform-origin: 50% 100%; animation: pulse var(--dur, 2s) ease-in-out infinite alternate; animation-delay: var(--dl, 0s); border-radius: 1px; }
+@keyframes pulse { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
+.mosaic { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; width: 100%; align-self: stretch; }
+.mosaic i { background: currentColor; opacity: .5; transition: opacity .9s; border-radius: 1px; }
+.lines { width: 100%; height: 100%; }
+.lines path { fill: none; stroke: currentColor; stroke-width: 1; opacity: .7; }
+.frames { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; align-self: stretch; padding-bottom: 6px; }
+.frames i { border: 1px solid currentColor; border-radius: 6px; opacity: .7; background: repeating-linear-gradient(0deg, transparent 0 7px, currentColor 7px 8px); background-blend-mode: normal; }
+.frames i:nth-child(odd) { background-image: repeating-linear-gradient(90deg, transparent 0 7px, currentColor 7px 8px); }
+
+@media (max-width: 760px) { .pill { width: 224px; } }
+
+@media (max-width: 760px) {
+  .grid.work { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 210px; }
+  .grid.work .s3, .grid.work .s2 { grid-column: span 2; }
+  .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 172px; }
+  .panels { grid-template-columns: 1fr; }
+}
+@media (max-width: 380px) { .face { padding: 14px; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01s !important; transition-delay: 0s !important; }
+}
+</style>
+
+<div class="wrap">
+  <div class="pillbar">
+    <div class="pill" id="pill">
+      <button class="pill-top" id="pillBtn" type="button" aria-expanded="false" aria-controls="pillPanel">
+        <span class="orb" aria-hidden="true"></span>
+        <span class="pill-text"><span class="pill-time" id="clock">--:--:-- EAT</span><span class="pill-state" id="pillState">Nairobi · open to roles</span></span>
+      </button>
+      <div class="pill-panel" id="pillPanel" role="region" aria-label="Quick menu">
+        <div class="pill-inner"><div>
+          <p class="pill-msg" id="pillMsg">Open to product, growth and full-stack roles.</p>
+          <nav class="pill-nav" aria-label="Jump to a section">
+            <a href="#work">Work</a><a href="#numbers">Numbers</a><a href="#toolkit">Toolkit</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </nav>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <h1 class="flap" id="flap" aria-label="Kelvin Ngobiro">
+      <span class="flap-row" data-w="KELVIN" aria-hidden="true">KELVIN</span>
+      <span class="flap-row" data-w="NGOBIRO" aria-hidden="true">NGOBIRO</span>
+    </h1>
+    <p class="pron">/Ngo-bi-ro/</p>
+    <p class="tagline">Product · Growth · Engineering · Impact</p>
+    <p class="where">Lives in Nairobi, and can generally be found at</p>
+    <div class="icons">
+      <a href="https://linkedin.com/in/kelvin-k-ngobiro" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v6M8 7.5v.01M12 17v-6m0 2.5c0-3 5-3.5 5 0V17"/></svg></a>
+      <a href="https://github.com/ngobi808" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <button type="button" id="mailBtn" aria-label="Copy email address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></button>
+    </div>
+    <p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+    <nav class="fan" aria-label="Sections">
+      <a class="card" href="#work" style="--x:-2;--y:.34;--r:-9deg;--z:1;--i:0;--c:#b4531a;--fg:#f6e7cf"><span class="art" data-art="bars"></span><span class="lbl">Selected<br>Work<small>6 launches</small></span></a>
+      <a class="card" href="#numbers" style="--x:-1;--y:.12;--r:-4deg;--z:2;--i:1;--c:#efe2c8;--fg:#2a1b10"><span class="art" data-art="mosaic"></span><span class="lbl">By the<br>Numbers<small>5,000+</small></span></a>
+      <a class="card" href="#toolkit" style="--x:0;--y:0;--r:1deg;--z:3;--i:2;--c:#d6a24a;--fg:#1a0f07"><span class="art" data-art="lines"></span><span class="lbl">Toolkit<small>4 drawers</small></span></a>
+      <a class="card" href="#about" style="--x:1;--y:.14;--r:5deg;--z:4;--i:3;--c:#8c5a2b;--fg:#f6e7cf"><span class="art" data-art="thin"></span><span class="lbl">My<br>Story<small>since 2016</small></span></a>
+      <a class="card" href="#contact" style="--x:2;--y:.38;--r:10deg;--z:5;--i:4;--c:#241810;--fg:#d6a24a"><span class="art" data-art="frames"></span><span class="lbl">Say<br>Hello<small>Nairobi · EAT</small></span></a>
+    </nav>
+  </header>
+
+  <section class="sec" id="work" aria-labelledby="h-work">
+    <h2 id="h-work">Work that turns over</h2>
+    <p class="lede">Hover a tile, or tap it on a phone, to see what I did and what came of it. <span class="hint">Tap again to flip back.</span></p>
+    <button class="wave-btn" id="wave" type="button" aria-pressed="false" style="margin: 0 0 18px">Flip the whole wall</button>
+    <div class="grid work" id="gwork">
+      <button class="tile s3 r2" type="button" aria-label="Wholesale commerce platform. Flip for details." style="--d:0s;--g:0s">
+        <span class="in">
+          <span class="face front"><span class="k">Product + engineering</span><span><h3 class="t">Wholesale commerce platform</h3></span><span class="tags"><span>React</span><span>TypeScript</span><span>Node</span><span>Postgres</span><span>M-Pesa Daraja</span></span></span>
+          <span class="face back"><span class="k">What I did</span><p>A Kenyan distributor needed to take orders online and run the business behind them. I built the storefront, the API, a role-based admin, customer accounts, discount codes and sales reports, on my own, from first line to deploy.</p><p>M-Pesa STK Push is tested end to end on the Safaricom sandbox. Production approval is in progress.</p></span>
+        </span>
+      </button>
+      <button class="tile s3" type="button" aria-label="Zuba fan app. Flip for details." style="--d:.05s;--g:1s">
+        <span class="in">
+          <span class="face front"><span class="k">Go-to-market</span><h3 class="t">Zuba, the Botswana Premier League fan app</h3><span class="tick-mark">Reon Capital</span></span>
+          <span class="face back"><span class="k">What I did</span><p>Owned the digital launch of the league's official app: ticket sales, season passes and live match updates.</p></span>
+        </span>
+      </button>
+      <button class="tile s3" type="button" aria-label="ANSU adoption campaign. Flip for details." style="--d:.1s;--g:2s">
+        <span class="in">
+          <span class="face front"><span class="k">Growth</span><h3 class="t">ANSU adoption campaign</h3><span class="tick-mark">1M KES budget</span></span>
+          <span class="face back"><span class="k">What I did</span><p>Ran paid media, influencer partnerships and localised content to grow reach and community engagement.</p></span>
+        </span>
+      </button>
+      <button class="tile s2" type="button" aria-label="Energy access in Somalia. Flip for details." style="--d:.15s;--g:3s">
+        <span class="in">
+          <span class="face front"><span class="k">Impact</span><h3 class="t">Energy access, Somalia</h3><span class="tick-mark">ENEVA Kloud</span></span>
+          <span class="face back"><span class="k">What I did</span><p>Supported onboarding for 5,000+ grid clients in Kismayo and expanded access in Mogadishu.</p></span>
+        </span>
+      </button>
+      <button class="tile s2" type="button" aria-label="AI programme. Flip for details." style="--d:.2s;--g:4s">
+        <span class="in">
+          <span class="face front"><span class="k">Strategy</span><h3 class="t">$1M AI programme</h3><span class="tick-mark">Pawa IT Solutions</span></span>
+          <span class="face back"><span class="k">What I did</span><p>Built the proof of concept, business case and pitch for a Tier 1 financial institution.</p></span>
+        </span>
+      </button>
+      <button class="tile s2" type="button" aria-label="Audience growth. Flip for details." style="--d:.25s;--g:5s">
+        <span class="in">
+          <span class="face front"><span class="k">Audience</span><h3 class="t">Audience growth</h3><span class="tick-mark">Stellar HR</span></span>
+          <span class="face back"><span class="k">What I did</span><p>LinkedIn up 175% and the WhatsApp community 10x in one year.</p></span>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <section class="sec" id="numbers" aria-labelledby="h-num">
+    <h2 id="h-num">In numbers</h2>
+    <p class="lede">Each one flips to the story behind it.</p>
+    <div class="grid four" id="gnum">
+      <button class="tile small" type="button" aria-label="5,000 plus grid clients. Flip for context." style="--d:0s;--g:.5s"><span class="in"><span class="face front"><span class="k">Onboarded</span><p class="big">5,000+</p><span class="tick-mark">grid clients</span></span><span class="face back"><span class="k">Where</span><p>Kismayo and Mogadishu, Somalia, with ENEVA Kloud.</p></span></span></button>
+      <button class="tile small" type="button" aria-label="1 million shilling budget. Flip for context." style="--d:.05s;--g:1.5s"><span class="in"><span class="face front"><span class="k">Managed</span><p class="big">1M KES</p><span class="tick-mark">campaign budget</span></span><span class="face back"><span class="k">Where</span><p>ANSU: paid media, influencers and local content.</p></span></span></button>
+      <button class="tile small" type="button" aria-label="3 markets. Flip for context." style="--d:.1s;--g:2.5s"><span class="in"><span class="face front"><span class="k">Launched in</span><p class="big">3</p><span class="tick-mark">African markets</span></span><span class="face back"><span class="k">Which</span><p>Kenya, Botswana and Somalia.</p></span></span></button>
+      <button class="tile small" type="button" aria-label="175 percent LinkedIn growth. Flip for context." style="--d:.15s;--g:3.5s"><span class="in"><span class="face front"><span class="k">Grew</span><p class="big">175%</p><span class="tick-mark">LinkedIn reach</span></span><span class="face back"><span class="k">How</span><p>Structured content and steady community engagement over a year.</p></span></span></button>
+    </div>
+  </section>
+
+  <section class="sec" id="toolkit" aria-labelledby="h-kit">
+    <h2 id="h-kit">Toolkit</h2>
+    <p class="lede">Four drawers, one flip each.</p>
+    <div class="grid four" id="gkit">
+      <button class="tile small" type="button" aria-label="Engineering skills. Flip to see the list." style="--d:0s;--g:.2s"><span class="in"><span class="face front"><span class="k">Drawer</span><h3 class="t">Engineering</h3><span class="tick-mark">flip</span></span><span class="face back"><span class="k">Engineering</span><p>React, TypeScript, Node, Express, PostgreSQL, REST, JWT, Git, Vercel, Railway.</p></span></span></button>
+      <button class="tile small" type="button" aria-label="Payments and commerce skills. Flip to see the list." style="--d:.05s;--g:1.2s"><span class="in"><span class="face front"><span class="k">Drawer</span><h3 class="t">Payments &amp; commerce</h3><span class="tick-mark">flip</span></span><span class="face back"><span class="k">Payments</span><p>M-Pesa Daraja, Buy Goods Till, checkout flows, inventory, Shopify, WordPress.</p></span></span></button>
+      <button class="tile small" type="button" aria-label="Product and growth skills. Flip to see the list." style="--d:.1s;--g:2.2s"><span class="in"><span class="face front"><span class="k">Drawer</span><h3 class="t">Product &amp; growth</h3><span class="tick-mark">flip</span></span><span class="face back"><span class="k">Growth</span><p>Go-to-market, A/B testing, SEO, paid media, lifecycle email, stakeholder stories.</p></span></span></button>
+      <button class="tile small" type="button" aria-label="Data and tools skills. Flip to see the list." style="--d:.15s;--g:3.2s"><span class="in"><span class="face front"><span class="k">Drawer</span><h3 class="t">Data &amp; tools</h3><span class="tick-mark">flip</span></span><span class="face back"><span class="k">Data</span><p>GA4, Power BI, SQL, Salesforce, HubSpot, Figma, Jira, Notion.</p></span></span></button>
+    </div>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="h-me">
+    <h2 id="h-me">The person behind the tiles</h2>
+    <div class="panels">
+      <div class="panel">
+        <h3>How I got here</h3>
+        <p>I started in a university IoT club, built a farming-advisory chatbot that placed third at TUK Innovation Week, and was a finalist at IHub Impact 2020 with Farmbot, an IoT food-security idea.</p>
+        <p>Then came five years of marketing and programme work across East Africa and the Horn. Now I build the products I used to promote, and I like owning one from the first line of code to the first paying customer.</p>
+      </div>
+      <div class="panel" id="contact">
+        <h3>Say hello</h3>
+        <div class="mail"><code id="mail">kevongobiro@gmail.com</code><button class="copy" id="copy" type="button">Copy</button></div>
+        <div class="links">
+          <a href="https://linkedin.com/in/kelvin-k-ngobiro" target="_blank" rel="noopener">linkedin.com/in/kelvin-k-ngobiro</a>
+          <span>+254 705 037 513</span>
+          <span>CV on request, in two versions: programme and impact, or product and tech.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Built from flipping tiles. Open to product, growth and full-stack roles.</footer>
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* split-flap name: every letter scrambles, then settles on the real one */
+  var pool = 'KELVINGOBR'; /* only letters from KELVIN NGOBIRO */
+  var rows = document.querySelectorAll('.flap-row');
+  var order = 0, tiles = [];
+  rows.forEach(function (row) {
+    var word = row.getAttribute('data-w');
+    row.textContent = '';
+    word.split('').forEach(function (ch) {
+      var t = document.createElement('span'); t.className = 'ch';
+      var b = document.createElement('b'); b.textContent = ch; t.appendChild(b);
+      row.appendChild(t);
+      tiles.push({ el: t, b: b, ch: ch, i: order++ });
+    });
+  });
+  function flipTo(tile, ch, fast) {
+    tile.b.style.animationDuration = fast ? '.19s' : '.5s';
+    tile.b.textContent = ch;
+    tile.el.classList.remove('tick'); void tile.el.offsetWidth; tile.el.classList.add('tick');
+  }
+  function rnd() { return pool[Math.floor(Math.random() * pool.length)]; }
+  /* one tile clacks through a few random letters from the name, slowly, then lands on its own */
+  function settle(tile, done, fast) {
+    var steps = fast ? 2 + Math.floor(Math.random() * 2) : 2 + Math.floor(Math.random() * 3), n = 0;
+    var id = setInterval(function () {
+      n++;
+      var last = n > steps;
+      flipTo(tile, last ? tile.ch : rnd(), fast);
+      if (last) { clearInterval(id); if (done) done(); }
+    }, fast ? 190 : 560);
+  }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  var busy = false, last = null;
+  /* reveal: every tile starts on a random letter, then lands in random order, one after another */
+  function runFlap() {
+    if (busy) return; busy = true;
+    tiles.forEach(function (t) { t.b.textContent = rnd(); });
+    var q = shuffle(tiles), k = 0;
+    (function next() {
+      if (k >= q.length) { busy = false; loop(); return; }
+      var t = q[k++];
+      settle(t, null, true);
+      setTimeout(next, 70);
+    })();
+  }
+  /* then the board never rests: one random tile at a time, slowly */
+  var looping = false;
+  function loop() {
+    if (looping) return; looping = true;
+    (function again() {
+      if (document.hidden) { setTimeout(again, 800); return; }
+      var t; do { t = tiles[Math.floor(Math.random() * tiles.length)]; } while (t === last);
+      last = t;
+      settle(t, function () { setTimeout(again, 350 + Math.random() * 500); });
+    })();
+  }
+  if (!reduce) { runFlap(); }
+  var flap = document.getElementById('flap');
+  flap.addEventListener('click', function () { if (!reduce) runFlap(); });
+
+  /* tap to flip where there is no hover (phones, tablets) */
+  if (!canHover) {
+    document.querySelectorAll('.tile').forEach(function (t) {
+      t.addEventListener('click', function () { t.classList.toggle('flipped'); });
+    });
+  }
+
+  /* flip the whole wall in a wave */
+  var wave = document.getElementById('wave');
+  var grids = document.querySelectorAll('.grid');
+  var all = document.querySelectorAll('.grid .tile');
+  all.forEach(function (t, i) { t.dataset.d0 = t.style.getPropertyValue('--d') || '0s'; t._i = i; });
+  wave.addEventListener('click', function () {
+    var on = wave.getAttribute('aria-pressed') !== 'true';
+    wave.setAttribute('aria-pressed', on ? 'true' : 'false');
+    wave.textContent = on ? 'Flip it back' : 'Flip the whole wall';
+    all.forEach(function (t) { t.style.setProperty('--d', (t._i * 0.06).toFixed(2) + 's'); });
+    grids.forEach(function (g) { g.classList.toggle('all', on); });
+    if (!on) { all.forEach(function (t) { t.classList.remove('flipped'); }); }
+    setTimeout(function () { all.forEach(function (t) { t.style.setProperty('--d', t.dataset.d0); }); }, 2200);
+  });
+
+
+  /* ---- live clock pill ---- */
+  var clock = document.getElementById('clock');
+  var fmt;
+  try { fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Nairobi', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }); } catch (e) { fmt = null; }
+  function tickClock() {
+    var d = new Date();
+    clock.textContent = (fmt ? fmt.format(d) : d.toTimeString().slice(0, 8)) + ' EAT';
+    var h = fmt ? parseInt(fmt.format(d).slice(0, 2), 10) : d.getHours();
+    var msg = h < 6 ? 'Late shift in Nairobi' : h < 12 ? 'Good morning from Nairobi' : h < 17 ? 'Afternoon in Nairobi' : h < 21 ? 'Evening in Nairobi' : 'Night owl hours in Nairobi';
+    var st = document.getElementById('pillState');
+    if (st.dataset.flip === '1') st.textContent = 'Open to roles'; else st.textContent = msg;
+  }
+  tickClock(); setInterval(tickClock, 1000);
+  setInterval(function () { var st = document.getElementById('pillState'); st.dataset.flip = st.dataset.flip === '1' ? '0' : '1'; tickClock(); }, 4000);
+
+  var pill = document.getElementById('pill'), pillBtn = document.getElementById('pillBtn');
+  function setPill(open) { pill.classList.toggle('open', open); pillBtn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  pillBtn.addEventListener('click', function () { setPill(!pill.classList.contains('open')); });
+  pill.addEventListener('click', function (e) { if (e.target.closest('.pill-nav a')) setPill(false); });
+  document.addEventListener('click', function (e) { if (!pill.contains(e.target)) setPill(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { setPill(false); pillBtn.focus(); } });
+
+  /* ---- email icon copies the address ---- */
+  var toast = document.getElementById('toast'), toastT;
+  function say(t) { toast.textContent = t; clearTimeout(toastT); toastT = setTimeout(function () { toast.textContent = ''; }, 2400); }
+  document.getElementById('mailBtn').addEventListener('click', function () {
+    var addr = 'kevongobiro@gmail.com';
+    try { navigator.clipboard.writeText(addr).then(function () { say('Email copied: ' + addr); }, function () { say(addr); }); } catch (e) { say(addr); }
+  });
+
+  /* ---- generative card art ---- */
+  function el(tag, cls) { var n = document.createElement(tag); if (cls) n.className = cls; return n; }
+  document.querySelectorAll('.art').forEach(function (art) {
+    var kind = art.getAttribute('data-art');
+    if (kind === 'bars' || kind === 'thin') {
+      var n = kind === 'bars' ? 34 : 22;
+      for (var i = 0; i < n; i++) {
+        var b = el('i', 'bar');
+        var h = 25 + Math.random() * 75;
+        b.style.height = h + '%';
+        b.style.setProperty('--dur', (1.2 + Math.random() * 2.2).toFixed(2) + 's');
+        b.style.setProperty('--dl', (-Math.random() * 3).toFixed(2) + 's');
+        if (kind === 'thin') b.style.flex = '0 0 2px';
+        art.appendChild(b);
+      }
+      if (kind === 'thin') art.style.justifyContent = 'space-between';
+    } else if (kind === 'mosaic') {
+      var m = el('div', 'mosaic'), cells = [];
+      for (var j = 0; j < 56; j++) { var c = el('i'); c.style.opacity = (0.15 + Math.random() * 0.85).toFixed(2); cells.push(c); m.appendChild(c); }
+      art.appendChild(m);
+      setInterval(function () { if (document.hidden) return; var c = cells[Math.floor(Math.random() * cells.length)]; c.style.opacity = (0.1 + Math.random() * 0.9).toFixed(2); }, 140);
+    } else if (kind === 'lines') {
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var svg = document.createElementNS(svgNS, 'svg'); svg.setAttribute('class', 'lines'); svg.setAttribute('viewBox', '0 0 100 60'); svg.setAttribute('preserveAspectRatio', 'none');
+      for (var k = 0; k < 11; k++) {
+        var p = document.createElementNS(svgNS, 'path'), d = 'M0 ' + (6 + k * 5);
+        for (var x = 0; x <= 100; x += 10) d += ' L' + x + ' ' + (6 + k * 5 + Math.sin(x / 14 + k * 0.7) * 2.2).toFixed(1);
+        p.setAttribute('d', d); svg.appendChild(p);
+      }
+      art.appendChild(svg);
+    } else if (kind === 'frames') {
+      var f = el('div', 'frames'); for (var q = 0; q < 4; q++) f.appendChild(el('i')); art.appendChild(f);
+    }
+  });
+
+  /* copy email */
+  var copy = document.getElementById('copy');
+  copy.addEventListener('click', function () {
+    var text = document.getElementById('mail').textContent;
+    var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy'; }, 1600); };
+    try {
+      navigator.clipboard.writeText(text).then(done, function () { selectMail(); });
+    } catch (e) { selectMail(); }
+  });
+  function selectMail() {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById('mail'));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    copy.textContent = 'Press copy';
+  }
+})();
+</script>
+
+</html>
